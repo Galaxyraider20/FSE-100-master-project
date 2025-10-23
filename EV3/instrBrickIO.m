@@ -71,7 +71,7 @@ classdef instrBrickIO < BrickIO
                brickIO.btDevice = varargin{3};
                brickIO.btChannel = varargin{4};
                % set the bt handle
-               brickIO.handle = Bluetooth(brickIO.btDevice,brickIO.btChannel);
+               brickIO.handle = bluetooth(brickIO.btDevice,brickIO.btChannel);
                % open the bt handle
                brickIO.open;
             end
