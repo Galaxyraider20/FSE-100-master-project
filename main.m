@@ -3,10 +3,14 @@
 front = brick.UltrasonicDist(2);
 side = brick.UltrasonicDist(3);
 
+fprintf('first Ultrasonic Sensor 2 Distance: %.2f cm\n', front);
+fprintf('first Ultrasonic Sensor 3 Distance: %.2f cm\n', side);
+
+
 pause(3);
 
-front = brick.UltrasonicDist(3); % front distance to anything straight ahead
-side = brick.UltrasonicDist(2); 
+front = brick.UltrasonicDist(2); % front distance to anything straight ahead
+side = brick.UltrasonicDist(3); 
 
 
 
@@ -20,7 +24,7 @@ fprintf('Ultrasonic Sensor 3 Distance: %.2f cm\n', side);
 %brick.StopMotor('AB', 'Brake');
 while(true)
     if (side<=20)
-        if(front>=20)
+        if(front>=23)
             disp('Moving Forward');
             Forward(brick);
             [front, side] = checkDist(brick);
