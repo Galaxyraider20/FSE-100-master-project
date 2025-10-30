@@ -1,7 +1,8 @@
 
 %fprintf('Color Sensor RGB: R=%d, G=%d, B=%d\n', color(1), color(2), color(3));
-front = brick.UltrasonicDist(2);
-side = brick.UltrasonicDist(3);
+
+front = brick.UltrasonicDist(3); % front distance to anything straight ahead
+side = brick.UltrasonicDist(2); % side distance to anysthing straight ahead
 
 pause(3);
 
@@ -22,18 +23,19 @@ while(true)
     if (side<=20)
         if(front>=20)
             disp('Moving Forward');
-            Forward(brick);
+            forward(brick);
             [front, side] = checkDist(brick);
         else
             disp('Turning Right');
             turnRight(brick);
-            [front, side] = checkDist(brick);
+            [front, side] = checkDist
+            (brick);
         end
     else
-        disp('Turning left and Forward');
+        disp('Turning left and forward');
         turnLeft(brick);
-        Forward(brick);
-        Forward(brick);
+        forward(brick);
+        forward(brick);
 
 
         [front, side] = checkDist(brick);
