@@ -1,1 +1,1 @@
-brick.SetColorMode(1, 4);
+brick.SetColorMode(1, 2);
