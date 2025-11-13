@@ -1,13 +1,16 @@
 
 %fprintf('Color Sensor RGB: R=%d, G=%d, B=%d\n', color(1), color(2), color(3));
+front = brick.UltrasonicDist(2);
+side = brick.UltrasonicDist(3);
 
-front = brick.UltrasonicDist(3); % front distance to anything straight ahead
-side = brick.UltrasonicDist(2); % side distance to anysthing straight ahead
+fprintf('first Ultrasonic Sensor 2 Distance: %.2f cm\n', front);
+fprintf('first Ultrasonic Sensor 3 Distance: %.2f cm\n', side);
+
 
 pause(3);
 
-front = brick.UltrasonicDist(3); % front distance to anything straight ahead
-side = brick.UltrasonicDist(2); 
+front = brick.UltrasonicDist(2); % front distance to anything straight ahead
+side = brick.UltrasonicDist(3); 
 
 
 
@@ -19,26 +22,31 @@ fprintf('Ultrasonic Sensor 3 Distance: %.2f cm\n', side);
 %brick.MoveMotor('B', 50);
 %pause(5);% before first turn
 %brick.StopMotor('AB', 'Brake');
+timer = 5;
 while(true)
-    if (side<=20)
-        if(front>=20)
-            disp('Moving Forward');
-            forward(brick);
-            [front, side] = checkDist(brick);
+    if(timer == 0)
+        if (side<=20)
+            if(front>=23)
+                disp('Moving Forward');
+                Forward(brick);
+                [front, side] = checkDist(brick);
+            else
+                disp('Turning Right');
+                turnRight(brick);
+                [front, side] = checkDist(brick);
+            end
         else
-            disp('Turning Right');
-            turnRight(brick);
-            [front, side] = checkDist
-            (brick);
+            disp('Turning left and Forward');
+            turnLeft(brick);
+            Forward(brick);
+            Forward(brick);
+    
+    
+            [front, side] = checkDist(brick);
         end
     else
-        disp('Turning left and forward');
-        turnLeft(brick);
-        forward(brick);
-        forward(brick);
-
-
-        [front, side] = checkDist(brick);
+        timer = timer -1 ;
+        disp(timer);
     end
 end
 %fprintf('Color Sensor RGB: R=%d, G=%d, B=%d\n', color(1), color(2), color(3));
