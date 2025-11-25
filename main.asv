@@ -1,64 +1,59 @@
+%fprintf('Color Sensor RGB: R=%d, G=%d, B=%d\n', color(1), color(2), color(3));    
+ 
+    [front, side, side1] = checkDist(brick);
 
-%fprintf('Color Sensor RGB: R=%d, G=%d, B=%d\n', color(1), color(2), color(3));
-front = brick.UltrasonicDist(3);
-side = brick.UltrasonicDist(2);
-side1 = brick.UltrasonicDist(4);
-fprintf('first Ultrasonic Sensor 3 Distance: %.2f cm\n', front);
-fprintf('first Ultrasonic Sensor 2 Distance: %.2f cm\n', side); %left
-fprintf('first Ultrasonic Sensor 4 Distance: %.2f cm\n', side1); %right
+
+pause(1);
+
+    [front, side, side1] = checkDist(brick);
+
 
 pause(3);
 
-front = brick.UltrasonicDist(2); % front distance to anything straight ahead
-side = brick.UltrasonicDist(3); 
-side1 = brick.UltrasonicDist(4);
+    [front, side, side1] = checkDist(brick);
 
-
-
-
-fprintf('first Ultrasonic Sensor 3 Distance: %.2f cm\n', front);
-fprintf('first Ultrasonic Sensor 2 Distance: %.2f cm\n', side); %left
-fprintf('first Ultrasonic Sensor 4 Distance: %.2f cm\n', side1); %right
-
-%brick.MoveMotor('A', 62);
-%brick.MoveMotor('B', 50);
-%pause(5);% before first turn
-%brick.StopMotor('AB', 'Brake');
 timer = 0;
 Forward(brick);
+
 while(true)
+    [front, side, side1] = checkDist(brick);
+    checkColor(brick);
+    % --- SAFETY CHECKS ALWAYS ACTIVE ---
     if(timer == 0)
-        if(side1 < 7)
+        if(side < 4)
             disp('Obstacle VERY close on left → backing up left');
-            backUpleft(brick);
-            [front, side, side1, side2] = checkDist(brick);
-            continue;   % Restart loop after emergency action
-        elseif(side2 < 7)
-            disp('Obstacle VERY close on right → backing up right');
-            backUpRight(brick);
-            [front, side, side1, side2] = checkDist(brick);
+            backUpLeft(brick);
+            Forward(brick);
+            timer = 0.5;
             continue;   % Restart loop after emergency action
         end
+        if(side1 < 4)
+            disp('Obstacle VERY close on right → backing up right');
+            backUpRight(brick);
+            Forward(brick);
+            timer = 0.5;
+            continue;   % Restart loop after emergency action
+        end
+    % --- END SAFETY CHECKS ---
 
+    % --- TIMER ONLY AFFECTS TURN / FORWARD LOGIC ---
+    
         if (side<=20)
             if(front>=23)
                 disp('Moving Forward');
-                [front, side] = checkDist(brick);
             else
                 disp('Turning Right');
                 brick.StopAllMotors();
                 turnRight(brick);
                 Forward(brick);
-                timer = 3;
-                [front, side] = checkDist(brick);
+                timer = 5;
             end
         else
             disp('Turning left and Forward');
             brick.StopAllMotors();
             turnLeft(brick);
             Forward(brick);
-            timer = 3;
-            [front, side] = checkDist(brick);
+            timer = 5;
         end
     else
         timer = timer -1 ;
@@ -66,6 +61,7 @@ while(true)
         disp(timer);
     end
 end
+
 %fprintf('Color Sensor RGB: R=%d, G=%d, B=%d\n', color(1), color(2), color(3));
 %Color Sensor RGB: R=160, G=73, B=33 --> yellow -> manual mode
 %Color Sensor RGB: R=37, G=46, B=52 --> white line stop for 5 seconds
@@ -75,5 +71,3 @@ end
 % Your robot stops for one second when it sees white line.
 % Your robot stops and beeps two times when it sees blue.
 % Your robot stops and beeps three times when it sees green.
-
-

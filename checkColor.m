@@ -1,32 +1,17 @@
-brick.SetColorMode(1, 2);
-color = brick.ColorCode(1);
-brick.MoveMotor('AB', 50);
-brk = true;
-while (brk)
+function checkColor(brick)
+    % Function to monitor the EV3 color sensor and react accordingly.
+    
+    % Start moving forward
     color = brick.ColorCode(1);
-    disp(color);
-    if(color == 5)
+    fprintf('Color  %.2f\n', color);
+
+    if color == 5   % Red
         brick.StopAllMotors();
         pause(1);
-        brick.MoveMotor('AB', 50);
-        brk = false;
-    elseif(color == 2)
-        pause(2);
+        Forward(brick); % resume forward movement
+    elseif color == 2 || color == 3   % Blue OR Green
         brick.StopAllMotors();
-        brick.beep();
-        pause(0.5);
-        brick.beep();
-        brk = false;
-    elseif(color == 3)
-        pause(2);
-        brick.StopAllMotors();
-        brick.beep();
-        pause(0.5);
-        brick.beep();
-        pause(0.5);
-        brick.beep();
-        brk = false;
+        manualMode(brick); % switch to manual mode
+        Forward(brick);
     end
 end
-
-

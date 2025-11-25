@@ -17,27 +17,28 @@ Forward(brick);
 
 while(true)
     [front, side, side1] = checkDist(brick);
+    checkColor(brick);
     % --- SAFETY CHECKS ALWAYS ACTIVE ---
     if(timer == 0)
         if(side < 4)
             disp('Obstacle VERY close on left → backing up left');
             backUpLeft(brick);
             Forward(brick);
-            timer = 2;
+            timer = 1;
             continue;   % Restart loop after emergency action
         end
         if(side1 < 4)
             disp('Obstacle VERY close on right → backing up right');
             backUpRight(brick);
             Forward(brick);
-            timer = 2;
+            timer = 1;
             continue;   % Restart loop after emergency action
         end
     % --- END SAFETY CHECKS ---
 
     % --- TIMER ONLY AFFECTS TURN / FORWARD LOGIC ---
     
-        if (side<=20)
+        if (side<=25)
             if(front>=23)
                 disp('Moving Forward');
             else
@@ -45,14 +46,14 @@ while(true)
                 brick.StopAllMotors();
                 turnRight(brick);
                 Forward(brick);
-                timer = 3;
+                timer = 0;
             end
         else
             disp('Turning left and Forward');
             brick.StopAllMotors();
             turnLeft(brick);
             Forward(brick);
-            timer = 3;
+            timer = 4;
         end
     else
         timer = timer -1 ;

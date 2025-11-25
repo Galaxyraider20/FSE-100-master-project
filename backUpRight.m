@@ -3,6 +3,6 @@ function backUp(brick)
         pause(0.4);
         brick.StopMotor('AB', 'Coast');
         brick.MoveMotor('A', -80);
-        pause(0.3);
+        pause(0.4);
         brick.StopAllMotors();
 end
