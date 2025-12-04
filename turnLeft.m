@@ -12,6 +12,6 @@ function turnLeft(brick)
 %turn
         brick.MoveMotor('A', -20);
         brick.MoveMotor('B', 20);
-        pause(1.5);
+        pause(1);
         brick.StopMotor('AB', 'Coast');
 end
